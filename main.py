@@ -3,7 +3,12 @@ import logging
 from fastapi import FastAPI, HTTPException, Header, Depends
 from fastapi import Request
 from fastapi.logger import logger
+from pydantic import ValidationError
+from starlette import status
+from starlette.responses import JSONResponse
 
+from data.transaction.RefundTransactions import RefundTransaction
+from domain.models import RequestDataModel
 from domain.verify_request import VerifyRequest
 from private_config import PUBLIC_KEY
 
@@ -14,45 +19,61 @@ verify = VerifyRequest()
 # Налаштовуємо формат логів
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",  # Формат логів
+    format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.StreamHandler()  # Виводить логи в консоль
+        logging.StreamHandler()
     ]
 )
 
 
-# Функція для логування запиту
-async def log_request(request: Request):
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"message": exc.detail},
+    )
+
+
+async def validate_request(request: Request, signature: str = Header(...)) -> RequestDataModel:
     try:
         body = await request.json()
-        logger.info(f"Тіло запиту: {body}")
+        logger.info(f"Body: {body}")
+
+        data: RequestDataModel = RequestDataModel(**body)
+        logger.info(f"Signature: {signature}")
+
+        is_verified = verify.verify_signature(data.dict(), signature, PUBLIC_KEY)
+
+        if not is_verified:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad Signature")
+        return data
+
+    except ValidationError as e:
+        logger.error(f"Exception validation data: {e}")
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                            detail=e.errors())
     except Exception as e:
-        logger.error(f"Не вдалося зчитати тіло запиту: {e}")
+        logger.exception(f"Exception processing request: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error processing request")
 
 
-# Функція для валідації запиту
-async def validate_request(request: Request, signature: str = Header(...)):
-    await log_request(request)
-    data_dict = await request.json()
-    logger.info(f"Отриманий підпис: {signature}")
+@app.post("/mtgooglebot/refound", status_code=status.HTTP_200_OK)
+async def refound(request: Request, validation: RequestDataModel = Depends(validate_request)):
 
-    is_verified = verify.verify_signature(data_dict, signature, PUBLIC_KEY)
+    print(f"Action: {validation.action} | Success: {validation.success}")
+    if validation.action != "CLOSE_ACCOUNT" or not validation.success:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect status of refund")
 
-    if not is_verified:
-        raise HTTPException(status_code=400, detail="Невірний підпис")
+    refund_transaction = RefundTransaction().refund_transaction(validation.account)
+    print(refund_transaction)
 
+    if not refund_transaction['result']:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error occurred during refund processing.",
+        )
 
-# Основний маршрут
-@app.post("/mtgooglebot/refound")
-async def refound(request: Request, validation: dict = Depends(validate_request)):
-    logger.info("Запит успішний")
     return {"state": "success"}
-
-
-@app.get("/mtgooglebot/refound")
-async def refound(request: Request, validation: dict = Depends(validate_request)):
-    logger.info("Це Get запит (навіщо він тут взагалі) !!!!!!!")
-    return {"state": "error", "message": "Only post requests"}
 
 #
 #  ==========================================================

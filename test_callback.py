@@ -7,7 +7,7 @@ from domain.verify_request import VerifyRequest
 from fastapi.logger import logger
 
 
-def order_dict (dictionary):
+def order_dict(dictionary):
     result = {}
     for k, v in sorted(dictionary.items()):
         if isinstance(v, dict):
@@ -15,6 +15,7 @@ def order_dict (dictionary):
         else:
             result[k] = v
     return result
+
 
 # Генерація підпису
 def generate_signature(data: dict, private_key: str) -> str:
@@ -38,18 +39,20 @@ def generate_signature(data: dict, private_key: str) -> str:
 
 # Тестові дані
 data = {
-    "success": "true",
-    "action": "UPDATE_ACCOUNT",
-    "exception": "",
     "account": {
-        "customer_id": "11111111111",
-        "balance": "19.05",
-        "spend": "180.95",
-        "limit": "200.00",
-        "status": "ACTIVE",
-        "account_id": "a6a3e71d-b625-4ee8-9855-1c7bad303674",
-        "currency": "USD"
-    }
+        "account_id": "ab860855-137b-4ace-b8cb-834dfa99fffc",
+        "balance": "140.52",
+        "currency": "USD",
+        "customer_id": "6406938403",
+        "email": "denversmilla@gmail.com",
+        "limit": "0.00",
+        "spend": "0.00",
+        "status": "CLOSED"
+    },
+    "action": "CLOSE_ACCOUNT",
+    "exception": "",
+    "success": True,
+    "uid": "fcfcba60-b722-4171-8d7b-6e8d021861d8"
 }
 
 # Генерація пари ключів RSA

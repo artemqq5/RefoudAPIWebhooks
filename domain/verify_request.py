@@ -25,13 +25,13 @@ class VerifyRequest:
         try:
             sig = base64.b64decode(signature)
         except Exception as e:
-            logger.error(f"Помилка при декодуванні підпису: {e}")
+            logger.error(f"Error when signature decoding: {e}")
             return False
 
         verifier = PKCS1_v1_5.new(public_key)
         is_verified = verifier.verify(digest, sig)
 
-        logger.info(f"Результат перевірки підпису: {'вірний' if is_verified else 'не вірний'}")
+        logger.info(f"Result of check signature: {'Success' if is_verified else 'Failed'}")
 
         return is_verified
 
