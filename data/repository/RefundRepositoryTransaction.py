@@ -8,7 +8,9 @@ class RefundRepositoryTransaction(TransactionDataBase):
         return self._select_one(query, (account_uid,))
 
     def _update_status_refunded(self, account_uid, refunded_value, commission, last_spend):
-        query = "UPDATE `refunded_accounts` SET `refund_value` = %s, `commission` = %s, `last_spend` = %s, `status` = 'success' WHERE `account_uid` = %s;"
+        query = ("UPDATE `refunded_accounts` "
+                 "SET `refund_value` = %s, `commission` = %s, `last_spend` = %s, `status` = 'success', `completed_time` = CURRENT_TIMESTAMP "
+                 "WHERE `account_uid` = %s;")
         return self._update(query, (refunded_value, commission, last_spend, account_uid))
 
     def _add_value_balance(self, value, mcc_uuid, team_uuid):
