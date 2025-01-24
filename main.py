@@ -8,8 +8,10 @@ from starlette import status
 from starlette.responses import JSONResponse
 
 from data.transaction.RefundTransactions import RefundTransaction
-from domain.models import RequestDataModel
-from domain.verify_request import VerifyRequest
+from domain.notify_.NotifyAdmins import NotifyAdmins
+from domain.notify_.NotifyClients import NotifyClients
+from domain.request_.models import RequestDataModel
+from domain.request_.verify_request import VerifyRequest
 from private_config import PUBLIC_KEY
 
 # Створюємо екземпляр FastAPI
@@ -72,6 +74,9 @@ async def refound(request: Request, validation: RequestDataModel = Depends(valid
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error occurred during refund processing.",
         )
+
+    await NotifyClients.push_team_refund(validation.account.account_id)
+    await NotifyAdmins.push_admins_refund(validation.account.account_id)
 
     return {"state": "success"}
 

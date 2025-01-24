@@ -1,7 +1,7 @@
 import logging
 
 from data.repository.RefundRepositoryTransaction import RefundRepositoryTransaction
-from domain.models import AccountModel
+from domain.request_.models import AccountModel
 
 
 class RefundTransaction(RefundRepositoryTransaction):
@@ -27,13 +27,16 @@ class RefundTransaction(RefundRepositoryTransaction):
                 return {"result": False, "error": "Account already refunded"}
 
             balance = float(account.balance)
+            spend = float(account.spend)
             refunded_amount = round(balance * 0.96, 3)
             commission_amount = round(balance - refunded_amount, 3)
-            logging.info(f"Refunded amount ({balance}): {refunded_amount} with commission {commission_amount}")
+            logging.info(
+                f"Refunded amount ({balance}): {refunded_amount} with commission {commission_amount}. Spend {spend}")
 
             logging.info("Update account status")
             if not self._update_status_refunded(
-                    account_uid=account_uid, refunded_value=refunded_amount, commission=commission_amount):
+                    account_uid=account_uid, refunded_value=refunded_amount, commission=commission_amount,
+                    last_spend=spend):
                 raise Exception("Can't update status for Account in `refunded_accounts`")
 
             logging.info(f"Add balance reminding to MCC ({refunded_account['mcc_uuid']}) balance with commission "

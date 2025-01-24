@@ -3,7 +3,7 @@ import orjson
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
-from domain.verify_request import VerifyRequest
+from domain.request_.verify_request import VerifyRequest
 from fastapi.logger import logger
 
 
