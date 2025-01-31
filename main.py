@@ -3,6 +3,7 @@ import logging
 from fastapi import FastAPI, HTTPException, Header, Depends
 from fastapi import Request
 from fastapi.logger import logger
+from fastapi.openapi.models import Response
 from pydantic import ValidationError
 from starlette import status
 from starlette.responses import JSONResponse
@@ -78,7 +79,7 @@ async def refound(request: Request, validation: RequestDataModel = Depends(valid
     await NotifyClients.push_team_refund(validation.account.account_id)
     await NotifyAdmins.push_admins_refund(validation.account.account_id)
 
-    return 200
+    return Response(status_code=200)
 
 #
 #  ==========================================================
