@@ -78,7 +78,7 @@ async def refound(request: Request, validation: RequestDataModel = Depends(valid
     await NotifyClients.push_team_refund(validation.account.account_id)
     await NotifyAdmins.push_admins_refund(validation.account.account_id)
 
-    return {"state": "success"}
+    return 200
 
 #
 #  ==========================================================
