@@ -35,8 +35,7 @@ class RefundTransaction(RefundRepositoryTransaction):
 
             logging.info("Update account status")
             if not self._update_status_refunded(
-                    account_uid=account_uid, refunded_value=refunded_amount, commission=commission_amount,
-                    last_spend=spend):
+                    account_uid=account_uid, refunded_value=refunded_amount, commission=commission_amount):
                 raise Exception("Can't update status for Account in `refunded_accounts`")
 
             logging.info(f"Add balance reminding to MCC ({refunded_account['mcc_uuid']}) balance with commission "
