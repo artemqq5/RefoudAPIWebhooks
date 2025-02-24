@@ -8,7 +8,8 @@ from pydantic import ValidationError
 from starlette import status
 from starlette.responses import JSONResponse
 
-from data.transaction.RefundTransactions import RefundTransaction
+from data.repository.AccountRepository import AccountRepository
+from data.transaction.RefundTransaction import RefundTransaction
 from domain.notify_.NotifyAdmins import NotifyAdmins
 from domain.notify_.NotifyClients import NotifyClients
 from domain.request_.models import RequestDataModel
@@ -78,6 +79,27 @@ async def refound(request: Request, validation: RequestDataModel = Depends(valid
 
     await NotifyClients.push_team_refund(validation.account.account_id)
     await NotifyAdmins.push_admins_refund(validation.account.account_id)
+
+    return Response(status_code=200)
+
+
+@app.post("/mtgooglebot/created", status_code=status.HTTP_200_OK)
+async def created(request: Request, validation: RequestDataModel = Depends(validate_request)):
+
+    print(f"Action: {validation.action} | Success: {validation.success}")
+    if validation.action != "CREATE_ACCOUNT" or not validation.success:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect status of refund")
+
+    update_account_id = AccountRepository().update_customer_id(
+        validation.account.account_id, validation.account.customer_id
+    )
+    print(update_account_id)
+
+    if not update_account_id:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error occurred during update customer_id processing.",
+        )
 
     return Response(status_code=200)
 
