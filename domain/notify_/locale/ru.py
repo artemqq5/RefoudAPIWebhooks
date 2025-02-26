@@ -14,15 +14,15 @@ messages_ru = {
     Сума рефаунда: <b>{refund_value}</b>
     Комиссия за рефанд: <b>{commission}</b>''',
 
-    "VERIFICATED-ACCOUNT-ADMIN": '''🟢 2\\2 Создано аккаунт <b>{$account_email}</b> с балансом <b>{$amount}$</b>!
+    "VERIFICATED-ACCOUNT-ADMIN": '''🟢 2\\2 Создано аккаунт <b>{account_email}</b> с балансом <b>{amount}$</b>!
      ━━━━━━━━━━━━━━━━━
      ✅ Верефикация подтверждена!
      ━━━━━━━━━━━━━━━━━
      MCC: <b>{mcc_name}</b>
      Customer ID: <b>{customer_id}</b>
-     Команда: <b>{$team_name}</b>''',
+     Команда: <b>{team_name}</b>''',
 
-    "VERIFICATED-ACCOUNT-CLIENT": '''✅ Верефикация подтверждена! <b>{$account_email}</b> с балансом <b>{$amount}$</b>!
+    "VERIFICATED-ACCOUNT-CLIENT": '''✅ Верефикация подтверждена! <b>{account_email}</b> с балансом <b>{amount}$</b>!
      MCC: <b>{mcc_name}</b>
      Customer ID: <b>{customer_id}</b>''',
 }
