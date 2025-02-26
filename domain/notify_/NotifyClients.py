@@ -11,6 +11,14 @@ from data.repository.TeamRepository import TeamRepository
 from domain.notify_.localization import get_message
 from private_config import BOT_TOKEN
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.StreamHandler()
+    ]
+)
+
 
 class NotifyClients:
     @staticmethod
@@ -77,7 +85,7 @@ class NotifyClients:
             try:
                 message = get_message(
                     language=client.get('lang', 'en'),
-                    key="VERIFICATED-ACCOUT-CLIENT",
+                    key="VERIFICATED-ACCOUNT-CLIENT",
 
                     account_email=account['account_email'],
                     amount=account_balance,

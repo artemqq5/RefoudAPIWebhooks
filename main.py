@@ -93,9 +93,9 @@ async def created(request: Request, validation: RequestDataModel = Depends(valid
     update_account_id = AccountRepository().update_customer_id(
         validation.account.account_id, validation.account.customer_id
     )
-    print(update_account_id)
 
     if not update_account_id:
+        logging.error("Internal server error occurred during update customer_id processing.")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error occurred during update customer_id processing.",

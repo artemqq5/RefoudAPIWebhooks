@@ -11,6 +11,14 @@ from data.repository.UserRepository import UserRepository
 from domain.notify_.localization import get_message
 from private_config import BOT_TOKEN
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.StreamHandler()
+    ]
+)
+
 
 class NotifyAdmins:
     @staticmethod
