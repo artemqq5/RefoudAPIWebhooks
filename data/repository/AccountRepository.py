@@ -8,5 +8,5 @@ class AccountRepository(DefaultDataBase):
         return self._update(query, (customer_id, account_uid))
 
     def account_by_uid(self, account_uid):
-        query = "SELECT * FROM `sub_account` WHERE `account_uid` = %s LIMIT 1;"
+        query = "SELECT * FROM `sub_accounts` WHERE `account_uid` = %s LIMIT 1;"
         return self._select_one(query, (account_uid,))
