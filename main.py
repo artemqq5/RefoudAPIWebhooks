@@ -100,6 +100,10 @@ async def created(request: Request, validation: RequestDataModel = Depends(valid
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error occurred during update customer_id processing.",
         )
+    
+    account = validation.account
+    await NotifyClients.push_team_verificated_account(account.account_id, account.balance, account.customer_id)
+    await NotifyAdmins.push_admins_verificated_account(account.account_id, account.balance, account.customer_id)
 
     return Response(status_code=200)
 

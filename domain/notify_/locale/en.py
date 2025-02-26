@@ -12,5 +12,17 @@ messages_en = {
     MCC: <b>{mcc_name}</b>
 
     Refund amount: <b>{refund_value}</b>
-    Refund commission: <b>{commission}</b>'''
+    Refund commission: <b>{commission}</b>''',
+
+    "VERIFICATED-ACCOUNT-ADMIN": ''' 🟢 2\\2 Account <b>{$account_email}</b> created with balance <b>{$amount}$</b>!
+    ━━━━━━━━━━━━━━━━━━━━
+    ✅ Verification confirmed!
+    ━━━━━━━━━━━━━━━━━━━━━━
+    MCC: <b>{mcc_name}</b>
+    Customer ID: <b>{customer_id}</b>
+    Team: <b>{$team_name}</b>''',
+
+    "VERIFICATED-ACCOUNT-CLIENT": ''' ✅ Verification confirmed! <b>{$account_email}</b> with balance <b>{$amount}$</b>!
+    MCC: <b>{mcc_name}</b>
+    Customer ID: <b>{customer_id}</b>''',
 }
