@@ -91,7 +91,7 @@ async def created(request: Request, validation: RequestDataModel = Depends(valid
     account = validation.account
 
     if validation.action == "CREATE_BUDGET" and validation.success:
-        if not AccountRepository().account_by_uid(account.account_id)['budget_created']:
+        if AccountRepository().account_by_uid(account.account_id)['budget_created']:
             logging.error("account already created budget")
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="account already created budget")
         await NotifyAdmins.push_admins_create_budget(account.account_id, account.customer_id, account.balance)
@@ -102,7 +102,7 @@ async def created(request: Request, validation: RequestDataModel = Depends(valid
         return Response(status_code=200)
 
     if validation.action == "INVITE" and validation.success:
-        if not AccountRepository().account_by_uid(account.account_id)['budget_created']:
+        if AccountRepository().account_by_uid(account.account_id)['budget_created']:
             logging.error("account already get invite")
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="account already get invite")
         await NotifyAdmins.push_admins_invite(account.account_id, account.customer_id)
