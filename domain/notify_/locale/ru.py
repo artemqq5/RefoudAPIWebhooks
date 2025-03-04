@@ -22,12 +22,12 @@ messages_ru = {
      ✅ Верефикация подтверждена!
      ━━━━━━━━━━━━━━━━━
      MCC: <b>{mcc_name}</b>
-     Customer ID: <b>{customer_id}</b>
+     Customer ID: <code>{customer_id}</code>
      Команда: <b>{team_name}</b>''',
 
     "VERIFICATED-ACCOUNT-CLIENT": '''✅ Верефикация подтверждена! <b>{account_email}</b> с балансом <b>{amount}$</b>!
      MCC: <b>{mcc_name}</b>
-     Customer ID: <b>{customer_id}</b>''',
+     Customer ID: <code>{customer_id}</code>''',
 
     ############### CREATE BUDGET ################
      "CREATE-BUDGET-ADMIN": '''🏦 Бюджет аккаунта создан! <b>{account_email}</b>!
@@ -35,7 +35,7 @@ messages_ru = {
      <b>{amount}</b>
      ━━━━━━━━━━━━━━━━━
      MCC: <b>{mcc_name}</b>
-     Customer ID: <code>{customer_id}</<code>
+     Customer ID: <code>{customer_id}</code>
      Команда: <b>{team_name}</b>''',
 
      "CREATE-BUDGET-CLIENT": '''🏦 Бюджет аккаунта создан! <b>{account_email}</b>!
@@ -49,7 +49,7 @@ messages_ru = {
      "SEND-INVITE-ADMIN": '''📩 Инвайт в аккаунт отправлен! <b>{account_email}</b>!
      ━━━━━━━━━━━━━━━━━
      MCC: <b>{mcc_name}</b>
-     Customer ID: <code>{customer_id}</<code>
+     Customer ID: <code>{customer_id}</code>
      Команда: <b>{team_name}</b>''',
 
      "SEND-INVITE-CLIENT": '''📩 Инвайт в аккаунт отправлен! <b>{account_email}</b>!

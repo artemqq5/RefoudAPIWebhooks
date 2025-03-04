@@ -3,7 +3,7 @@ messages_uk = {
     "REFUND-ADMIN": '''🔖 2\\2 Рефаунд акаунта <b>{account_email}</b> | <b>{team_name}</b>!
     ━━━━━━━━━━━━━━━━
     MCC: <b>{mcc_name}</b>
-    Сustomer ID: <code>{customer_id}</<code>
+    Сustomer ID: <code>{customer_id}</code>
 
     Спенд акаунта: <b>{spend}</b>
     Сума рефаунду: <b>{refund_value}</b>
@@ -12,7 +12,7 @@ messages_uk = {
     "REFUND-CLIENT": '''✅ Рефаунд акаунта <b>{account_email}</b> завершено!
     ━━━━━━━━━━━━━━━━
     MCC: <b>{mcc_name}</b>
-    Сustomer ID: <code>{customer_id}</<code>
+    Сustomer ID: <code>{customer_id}</code>
 
     Сума рефаунду: <b>{refund_value}</b>
     Комісія за рефаунд: <b>{commission}</b>''',
@@ -23,12 +23,12 @@ messages_uk = {
     ✅ Верефікацію підтверджено!
     ━━━━━━━━━━━━━━━━
     MCC: <b>{mcc_name}</b>
-    Сustomer ID: <code>{customer_id}</<code>
+    Сustomer ID: <code>{customer_id}</code>
     Команда: <b>{team_name}</b>''',
 
     "VERIFICATED-ACCOUNT-CLIENT": '''✅ Верефікацію підтверджено! <b>{account_email}</b>!
     MCC: <b>{mcc_name}</b>
-    Сustomer ID: <code>{customer_id}</<code>''',
+    Сustomer ID: <code>{customer_id}</code>''',
 
     ############### CREATE BUDGET ################
     "CREATE-BUDGET-ADMIN": '''🏦 Бюджет аккаунта створено! <b>{account_email}</b>!
@@ -36,7 +36,7 @@ messages_uk = {
     <b>{amount}</b>
     ━━━━━━━━━━━━━━━━
     MCC: <b>{mcc_name}</b>
-    Сustomer ID: <code>{customer_id}</<code>
+    Сustomer ID: <code>{customer_id}</code>
     Команда: <b>{team_name}</b>''',
 
     "CREATE-BUDGET-CLIENT": '''🏦 Бюджет аккаунта створено! <b>{account_email}</b>!
@@ -50,7 +50,7 @@ messages_uk = {
     "SEND-INVITE-ADMIN": '''📩 Інвайт в акаунт відправлено! <b>{account_email}</b>!
     ━━━━━━━━━━━━━━━━
     MCC: <b>{mcc_name}</b>
-    Сustomer ID: <code>{customer_id}</<code>
+    Сustomer ID: <code>{customer_id}</code>
     Команда: <b>{team_name}</b>''',
 
     "SEND-INVITE-CLIENT": '''📩 Інвайт в акаунт відправлено! <b>{account_email}</b>!

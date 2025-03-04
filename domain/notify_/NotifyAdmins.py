@@ -204,6 +204,7 @@ class NotifyAdmins:
                         f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
                         data=payload
                 ) as response:
+                    print(response)
                     if response.status == 200:
                         counter += 1
                     else:

@@ -40,16 +40,16 @@ def generate_signature(data: dict, private_key: str) -> str:
 # Тестові дані
 data = {
     "account": {
-        "account_id": "ab860855-137b-4ace-b8cb-834dfa99fffc",
+        "account_id": "0105cf83-cd0e-4693-934d-7c5fa9c0b6bc",
         "balance": "140.52",
         "currency": "USD",
         "customer_id": "6406938403",
         "email": "denversmilla@gmail.com",
         "limit": "0.00",
         "spend": "0.00",
-        "status": "CLOSED"
+        "status": "ACTIVE"
     },
-    "action": "CLOSE_ACCOUNT",
+    "action": "INVITE",
     "exception": "",
     "success": True,
     "uid": "fcfcba60-b722-4171-8d7b-6e8d021861d8"

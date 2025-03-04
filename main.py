@@ -87,21 +87,37 @@ async def refound(request: Request, validation: RequestDataModel = Depends(valid
 @app.post("/mtgooglebot/created", status_code=status.HTTP_200_OK)
 async def created(request: Request, validation: RequestDataModel = Depends(validate_request)):
 
-    print(f"Action: {validation.action} | Success: {validation.success}")
+    print(f"Action: {validation.action} | Success: {validation.success} - {validation.action}")
     account = validation.account
 
     if validation.action == "CREATE_BUDGET" and validation.success:
+        if not AccountRepository().account_by_uid(account.account_id)['budget_created']:
+            logging.error("account already created budget")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="account already created budget")
         await NotifyAdmins.push_admins_create_budget(account.account_id, account.customer_id, account.balance)
         await NotifyClients.push_team_create_budget(account.account_id, account.customer_id, account.balance)
+
+        AccountRepository().update_budget_created(account.account_id)
+
         return Response(status_code=200)
 
     if validation.action == "INVITE" and validation.success:
+        if not AccountRepository().account_by_uid(account.account_id)['budget_created']:
+            logging.error("account already get invite")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="account already get invite")
         await NotifyAdmins.push_admins_invite(account.account_id, account.customer_id)
         await NotifyClients.push_team_invite(account.account_id, account.customer_id)
+
+        AccountRepository().update_invite_send(account.account_id)
+
         return Response(status_code=200)
 
     if validation.action != "CREATE_ACCOUNT" or not validation.success:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect status")
+
+    if AccountRepository().account_by_uid(account.account_id).get('customer_id'):
+        logging.error("Customer ID already set for account")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Customer ID already set for account")
 
     update_account_id = AccountRepository().update_customer_id(
         validation.account.account_id, validation.account.customer_id

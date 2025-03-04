@@ -178,6 +178,8 @@ class NotifyClients:
         clients = TeamRepository().team_users_by_uuid(account['team_uuid'])
         mcc = MCCRepository().mcc_by_uuid(account['mcc_uuid'])
 
+        print(clients)
+
         async def notify_client(client, clsession: ClientSession):
             nonlocal counter, other
             try:
